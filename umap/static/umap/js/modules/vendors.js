@@ -1,7 +1,6 @@
 import { Util } from '../../vendors/leaflet/leaflet-src.esm.js'
+// import { WebsocketProvider } from '../../vendors/y-websocket/y-websocket.js'
 
-// expose the modules to the window.vendors global scope
-window.vendors = {
-  Util,
-}
-export { Util }
+// If vendorized modules need to be used globally, put them in this namespace.
+window.vendors = {}
+export { Util } //, WebsocketProvider }

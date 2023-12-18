@@ -1675,6 +1675,7 @@ L.U.Editable = L.Editable.extend({
       if (e.layer instanceof L.U.Marker) e.layer.del()
     })
     this.on('editable:drawing:commit', function (e) {
+      e.layer.saveToStorage()
       e.layer.isDirty = true
       if (this.map.editedFeature !== e.layer) e.layer.edit(e)
     })

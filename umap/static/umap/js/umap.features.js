@@ -1,8 +1,64 @@
+/**
+ * Enables the storage layer for umap features.
+ *
+ * This mixin needs to have another `L.U.FeatureMixin` in order to work properly.
+ *
+ * Children need to define:
+ * - `storedFields`:  an object defining the data that will be sent to the storage layer.
+ *                   key/value pairs.
+ * - `dataType`:
+ */
+L.U.StorageMixin = {
+  initialize: function (map, latlng, options) {
+    console.log('Im storage mixin')
+    this.storage = map.storage
+    if (this.storedFields === undefined)
+      throw '`StorageMixin` objects require a `storedFields` property'
+    if (this.dataType === undefined)
+      throw '`StorageMixin` objects require a `dataType` property'
+
+    L.U.FeatureMixin.initialize.call(this, map, latlng, options)
+  },
+
+  saveToStorage: function () {
+    if (!this.options.uuid) {
+      const data = this._buildStoredFields()
+
+      const metadata = {}
+      /* if (this.dataType == 'feature') {
+        metadata.layer_id = this.datalayer.options.uuid
+      } */
+
+      const uuid = this.storage.set(this.dataType, data, metadata)
+      this.options.uuid = uuid
+    }
+  },
+
+  /**
+   * Builds the stored fields, in a way the storage is able to consume.
+   */
+  _buildStoredFields: function () {
+    self = this
+    const data = Object.entries(this.storedFields).reduce((acc, item) => {
+      let [key, value] = item
+      acc[key] = self[value]
+      return acc
+    }, {})
+
+    // enrich the data with the uuid
+    data.uuid = self.properties.uuid
+
+    return data
+  },
+}
+
 L.U.FeatureMixin = {
   staticOptions: { mainColor: 'color' },
 
   initialize: function (map, latlng, options) {
+    console.log('feature mixin')
     this.map = map
+
     if (typeof options === 'undefined') {
       options = {}
     }
@@ -12,6 +68,7 @@ L.U.FeatureMixin = {
     if (options.geojson) {
       this.populate(options.geojson)
     }
+
     let isDirty = false
     const self = this
     try {
@@ -541,7 +598,13 @@ L.U.FeatureMixin = {
 
 L.U.Marker = L.Marker.extend({
   parentClass: L.Marker,
-  includes: [L.U.FeatureMixin],
+  includes: [L.U.FeatureMixin, L.U.StorageMixin],
+
+  storedFields: {
+    latlng: '_latlng',
+  },
+
+  dataType: 'feature',
 
   preInit: function () {
     this.setIcon(this.getIcon())

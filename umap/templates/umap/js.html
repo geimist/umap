@@ -1,3 +1,10 @@
+<script type="importmap">
+{
+  "imports": {
+      "Leaflet": "{{ STATIC_URL}}umap/vendors/leaflet/leaflet-src.esm.js"
+  }
+}
+</script>
 {% load compress %}
 {% compress js %}
   <script src="{{ STATIC_URL }}umap/vendors/leaflet/leaflet-src.js"></script>
@@ -26,6 +33,7 @@
   <script src="{{ STATIC_URL }}umap/vendors/dompurify/purify.js"></script>
   <script src="{{ STATIC_URL }}umap/vendors/colorbrewer/colorbrewer.js"></script>
   <script src="{{ STATIC_URL }}umap/vendors/simple-statistics/simple-statistics.min.js"></script>
+  <script src="{{ STATIC_URL }}umap/vendors//simple-statistics.min.js"></script>
 {% endcompress %}
 {% if locale %}<script src="{{ STATIC_URL }}umap/locale/{{ locale }}.js"></script>{% endif %}
 {% compress js %}

@@ -106,6 +106,8 @@ icons:
 	scour -i umap/static/umap/img/source/16.svg -o umap/static/umap/img/16.svg --strip-xml-prolog --enable-comment-stripping
 	scour -i umap/static/umap/img/source/16-white.svg -o umap/static/umap/img/16-white.svg --strip-xml-prolog --enable-comment-stripping
 
+serve:
+	umap runserver
 
 .PHONY: help
 help:

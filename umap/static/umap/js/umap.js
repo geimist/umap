@@ -91,6 +91,7 @@ L.U.Map.include({
     // After calling parent initialize, as we are doing initCenter our-selves
     if (geojson.geometry) this.options.center = this.latLng(geojson.geometry)
     this.urls = new window.umap.URLs(this.options.urls)
+    this.storage = new window.umap.Storage()
 
     this.ui = new L.U.UI(this._container)
     this.xhr = new L.U.Xhr(this.ui)

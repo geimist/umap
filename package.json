@@ -38,6 +38,7 @@
     "csv2geojson": "5.1.1",
     "dompurify": "^3.0.3",
     "georsstogeojson": "^0.1.0",
+    "json-joy": "^11.24.0",
     "leaflet": "1.9.4",
     "leaflet-contextmenu": "^1.4.0",
     "leaflet-editable": "^1.2.0",
@@ -58,6 +59,9 @@
     "osmtogeojson": "^3.0.0-beta.3",
     "simple-statistics": "^7.8.3",
     "togpx": "^0.5.4",
-    "tokml": "0.4.0"
+    "tokml": "0.4.0",
+    "uuid": "^9.0.1",
+    "y-websocket": "^1.5.1",
+    "yjs": "^13.6.10"
   }
 }
