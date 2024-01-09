@@ -37,7 +37,8 @@
           <td>
             <a href="{{ map_inst.get_absolute_url }}?share">{% translate "Share" %}</a> |
             <a href="{{ map_inst.get_absolute_url }}?edit">{% translate "Edit" %}</a> |
-            <a href="{% url 'map_download' map_inst.pk %}">{% translate "Download" %}</a>
+            <a href="{% url 'map_download' map_inst.pk %}">{% translate "Download" %}</a> |
+            <a href="{% url 'map_delete' map_inst.pk %}">{% translate "Delete" %}</a>
           </td>
         </tr>
       {% endwith %}
@@ -79,3 +80,31 @@
     {# djlint:on #}
   {% endif %}
 </div>
+<script type="text/javascript">
+  !(function () {
+    for (const deleteLink of document.querySelectorAll("table.maps a[href$='delete/']")) {
+      deleteLink.addEventListener('click', (event) => {
+        event.preventDefault()
+        const token = document.cookie.replace(
+          /(?:(?:^|.*;\s*)csrftoken\s*\=\s*([^;]*).*$)|^.*$/,
+          '$1'
+        )
+        if (confirm(L._('Are you sure you want to delete this map?'))) {
+          fetch(deleteLink.href, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': token
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.reload()
+              }
+              throw response
+            })
+            .catch((error) => console.debug(error))
+        }
+      })
+    }
+  })()
+</script>
